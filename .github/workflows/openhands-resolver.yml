@@ -15,18 +15,15 @@ permissions:
 
 jobs:
   call-openhands-resolver:
-    uses: OpenHands/OpenHands/.github/workflows/openhands-resolver.yml@main
+    uses: ./.github/workflows/deepsolve-resolver.yml
     with:
       macro: ${{ vars.OPENHANDS_MACRO || '@openhands-agent' }}
       max_iterations: ${{ fromJson(vars.OPENHANDS_MAX_ITER || 50) }}
       LLM_MODEL: ${{ vars.LLM_MODEL || 'bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0' }}
-      LLM_API_VERSION: ${{ vars.LLM_API_VERSION || '' }}
       target_branch: ${{ vars.TARGET_BRANCH || 'main' }}
-      pr_type: ${{ vars.PR_TYPE || 'draft' }}
-      base_container_image: ${{ vars.BASE_CONTAINER_IMAGE || '' }}
-      runner: ${{ vars.RUNNER || 'ubuntu-latest' }}
     secrets:
-      LLM_API_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      LLM_BASE_URL: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION_NAME: ${{ secrets.AWS_REGION_NAME }}
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       PAT_USERNAME: ${{ secrets.PAT_USERNAME }}
